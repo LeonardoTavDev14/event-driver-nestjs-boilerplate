@@ -1,0 +1,23 @@
+// importando Controller do nest
+import { Body, Controller, Inject } from '@nestjs/common';
+
+// importando dto para validação de dados passados
+import { CreateUserDTO } from '@app/shared';
+
+// importando post do nest
+import { Post } from '@nestjs/common';
+
+// importando clientProxy para chamar o rabbitmq
+import { ClientProxy } from '@nestjs/microservices';
+
+@Controller('users')
+export class ApiGatewayController {
+  constructor(
+    @Inject('USER_SERVICE') private readonly clientProxy: ClientProxy,
+  ) {}
+
+  @Post('create')
+  createdUser(@Body() data: CreateUserDTO) {
+    return this.clientProxy.send('created_user', data);
+  }
+}

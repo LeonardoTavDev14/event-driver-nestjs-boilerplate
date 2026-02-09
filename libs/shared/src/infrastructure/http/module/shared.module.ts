@@ -1,0 +1,17 @@
+import { BcryptProvider } from '@app/shared/application/providers/bcrypt.provider';
+import { Module } from '@nestjs/common';
+import { NestBcryptProvider } from '../../providers/nest.bcrypt.provider';
+import { NodemailerProvider } from '@app/shared/application/providers/nodemailer.provider';
+import { NestNodemailerProvider } from '../../providers/nest.nodemailer.provider';
+import { TemplatesMailProvider } from '@app/shared/application/providers/templates.mail.provider';
+import { NestTemplatesMailProvider } from '../../providers/nest.templates.mail.provider';
+
+@Module({
+  providers: [
+    { provide: BcryptProvider, useClass: NestBcryptProvider },
+    { provide: NodemailerProvider, useClass: NestNodemailerProvider },
+    { provide: TemplatesMailProvider, useClass: NestTemplatesMailProvider },
+  ],
+  exports: [BcryptProvider, NodemailerProvider, TemplatesMailProvider],
+})
+export class SharedModule {}

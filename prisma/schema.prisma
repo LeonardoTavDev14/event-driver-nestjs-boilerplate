@@ -1,0 +1,33 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+// banco de dados a ser usado
+datasource db {
+  provider = "postgresql"
+}
+
+// tipos de permissões de usuário no sistema
+enum permissions {
+  USER
+  DEV
+  BACK_LOG
+  ADMIN
+  SUPERADMIN
+  OWNER
+}
+
+// tabela de usuário
+model user {
+  id          String      @id @default(uuid())
+  name        String
+  email       String      @unique
+  password    String
+  dateOfBirth DateTime
+  role        permissions @default(USER)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("users")
+}
