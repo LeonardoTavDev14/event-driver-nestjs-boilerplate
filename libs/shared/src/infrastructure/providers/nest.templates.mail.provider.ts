@@ -92,4 +92,71 @@ export class NestTemplatesMailProvider implements TemplatesMailProvider {
 </html>
 `;
   }
+
+  removeAccountMailTemplate(name: string): string {
+    return `<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Conta Deletada</title>
+</head>
+<body style="margin:0; padding:0; background-color:#f4f6f8; font-family:Arial, Helvetica, sans-serif;">
+
+  <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#f4f6f8; padding:20px;">
+    <tr>
+      <td align="center">
+        
+        <table width="600" cellpadding="0" cellspacing="0" style="background-color:#ffffff; border-radius:6px; overflow:hidden;">
+          
+          <tr>
+            <td style="background-color:#2f80ed; padding:20px; text-align:center;">
+              <h1 style="margin:0; color:#ffffff; font-size:22px;">
+                Daily Reminder
+              </h1>
+            </td>
+          </tr>
+
+          <tr>
+            <td style="padding:30px; color:#333333; font-size:15px; line-height:1.6;">
+              <p style="margin-top:0;">
+                Olá <strong>${name}</strong>,
+              </p>
+
+              <p>
+                Este e-mail é para confirmar que sua conta foi <strong>deletada com sucesso</strong> do sistema Daily Reminder.
+              </p>
+
+              <p>
+                A partir deste momento, seus dados não estarão mais acessíveis em nossa plataforma, conforme solicitado.
+              </p>
+
+              <p>
+                Caso essa ação não tenha sido realizada por você ou se houver qualquer dúvida, entre em contato com nosso suporte o mais breve possível.
+              </p>
+
+              <p style="margin-bottom:0;">
+                Agradecemos por ter utilizado o Daily Reminder.
+              </p>
+            </td>
+          </tr>
+
+          <tr>
+            <td style="background-color:#f0f0f0; padding:20px; text-align:center; font-size:12px; color:#777777;">
+              <p style="margin:0;">
+                © 2026 Daily Reminder. Todos os direitos reservados.
+              </p>
+              <p style="margin:5px 0 0 0;">
+                Este é um e-mail automático, por favor não responda.
+              </p>
+            </td>
+          </tr>
+
+        </table>
+
+      </td>
+    </tr>
+  </table>
+
+</body>
+</html>`;
+  }
 }

@@ -7,6 +7,7 @@ import { UserRepository } from '../../repository/user.repository';
 import { Database } from '../../database/database';
 import { CreateUserUseCase } from 'apps/users/src/application/usecases/create-user.usecase';
 import { ClientsModule, Transport } from '@nestjs/microservices';
+import { DeleteUserUseCase } from 'apps/users/src/application/usecases/delete-user.usecase';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
     Database,
     { provide: UserRepositories, useClass: UserRepository },
     CreateUserUseCase,
+    DeleteUserUseCase,
   ],
 })
 export class UsersModule {}

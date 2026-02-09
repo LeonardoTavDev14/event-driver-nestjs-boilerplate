@@ -30,12 +30,22 @@ export class NotificationsController {
   async sendWelcomeEmail(@Payload() data: { email: string; name: string }) {
     await this.nodemailerProvider.sendingMail({
       email: data.email,
-      subject: 'WELCOME DAILY REMAIDER',
+      subject: 'Welcome to DAILY REMAIDER',
       text: 'INTRODUCTION IN APP',
       html: this.templatesMailProvider.welcomeMailTemplate(
         data.name,
         this.nodemailerProvider.linkPlataform,
       ),
+    });
+  }
+
+  @EventPattern('send_deleted_email')
+  async sendRemoveEmail(@Payload() data: { email: string; name: string }) {
+    await this.nodemailerProvider.sendingMail({
+      email: data.email,
+      subject: 'DELETED ACCOUNT IN DAILY REMAIDER',
+      text: 'REMOVED ACCOUNT IN APP',
+      html: this.templatesMailProvider.removeAccountMailTemplate(data.name),
     });
   }
 }

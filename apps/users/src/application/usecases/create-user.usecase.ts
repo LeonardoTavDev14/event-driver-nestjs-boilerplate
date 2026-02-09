@@ -8,7 +8,7 @@ import { UserRepositories } from '../../domain/repositories/user.repositories';
 import { Inject, Injectable } from '@nestjs/common';
 
 // importando entidade de usuário
-import { User } from '../../domain/user.entity';
+import { User } from '../../domain/entities/user.entity';
 
 // importando error personalizado
 import { userAlreadyExistsError } from '@app/shared/errors/user/user-already-exists.error';
@@ -62,7 +62,7 @@ export class CreateUserUseCase {
     // chamando filas para o envio de e-mail para os usuários criados
     this.clientProxy.emit('send_welcome_email', {
       email: saveUser.email,
-      name: saveUser.name,
+      name: saveUser.name.split(' ')[0],
     });
 
     // retornando usuário

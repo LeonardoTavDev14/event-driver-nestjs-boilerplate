@@ -8,7 +8,7 @@ import { Injectable } from '@nestjs/common';
 import { Database } from '../database/database';
 
 // importando entidade user
-import { User } from '../../domain/user.entity';
+import { User } from '../../domain/entities/user.entity';
 
 // importando mappers para a não repetição de codigo
 import { DatabaseUserMapper } from '../mappers/database.user.mapper';
@@ -56,5 +56,12 @@ export class UserRepository implements UserRepositories {
 
     // retornando os dados encontrados
     return DatabaseUserMapper.toDomain(userAlreadyExists);
+  }
+
+  async removeUser(id: string): Promise<void> {
+    // deletando o usuário pelo id no banco de dados
+    await this.database.user.delete({
+      where: { id },
+    });
   }
 }

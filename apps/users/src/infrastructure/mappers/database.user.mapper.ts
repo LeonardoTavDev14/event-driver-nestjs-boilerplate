@@ -1,5 +1,5 @@
 // importando entidade de usuário
-import { User } from '../../domain/user.entity';
+import { User } from '../../domain/entities/user.entity';
 
 // exportando classe de mapper de usuário para não ficar repetindo codigo
 export class DatabaseUserMapper {
