@@ -5,13 +5,23 @@ import { NodemailerProvider } from '@app/shared/application/providers/nodemailer
 import { NestNodemailerProvider } from '../../providers/nest.nodemailer.provider';
 import { TemplatesMailProvider } from '@app/shared/application/providers/templates.mail.provider';
 import { NestTemplatesMailProvider } from '../../providers/nest.templates.mail.provider';
+import { JwtProvider } from '@app/shared/application/providers/jwt.provider';
+import { NestJwtProvider } from '../../providers/nest.jwt.provider';
+import { JwtStrategy } from '../../strategies/jwt.strategies';
 
 @Module({
   providers: [
+    JwtStrategy,
     { provide: BcryptProvider, useClass: NestBcryptProvider },
     { provide: NodemailerProvider, useClass: NestNodemailerProvider },
     { provide: TemplatesMailProvider, useClass: NestTemplatesMailProvider },
+    { provide: JwtProvider, useClass: NestJwtProvider },
   ],
-  exports: [BcryptProvider, NodemailerProvider, TemplatesMailProvider],
+  exports: [
+    BcryptProvider,
+    NodemailerProvider,
+    TemplatesMailProvider,
+    JwtProvider,
+  ],
 })
 export class SharedModule {}

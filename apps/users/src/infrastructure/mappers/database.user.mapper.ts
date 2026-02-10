@@ -11,6 +11,9 @@ export class DatabaseUserMapper {
       raw.password,
       raw.dateOfBirth,
       raw.permissions,
+      raw.loginAttempts,
+      raw.accountSuspended,
+      raw.accountBlocked,
       raw.id,
     );
   }
@@ -24,6 +27,9 @@ export class DatabaseUserMapper {
       password: user.password,
       dateOfBirth: user.dateOfBirth,
       role: user.role,
+      loginAttempts: null,
+      accountSuspended: null,
+      accountBlocked: null,
     };
   }
 }

@@ -21,6 +21,11 @@ export class User {
   public readonly dateOfBirth: Date;
   public readonly role: permissions;
 
+  // opcionais
+  public readonly loginAttempts?: number | null;
+  public readonly accountSuspended?: Date | null;
+  public readonly accountBlocked?: boolean | null;
+
   // inicializador
   constructor(
     name: string,
@@ -28,6 +33,9 @@ export class User {
     password: string,
     dateOfBirth: Date,
     role: permissions,
+    loginAttempts?: number | null,
+    accountSuspended?: Date | null,
+    accountBlocked?: boolean | null,
     id?: string,
   ) {
     this.name = name;
@@ -37,6 +45,10 @@ export class User {
     this.role = role;
 
     // opcionais
+    if (loginAttempts !== undefined) this.loginAttempts = loginAttempts;
+    if (accountSuspended !== undefined)
+      this.accountSuspended = accountSuspended;
+    if (accountBlocked !== undefined) this.accountBlocked = accountBlocked;
     if (id) this.id = id;
   }
 }

@@ -26,6 +26,10 @@ model user {
   dateOfBirth DateTime
   role        permissions @default(USER)
 
+  loginAttempts    Int?
+  accountSuspended DateTime?
+  accountBlocked   Boolean?
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
