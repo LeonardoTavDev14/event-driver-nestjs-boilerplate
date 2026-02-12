@@ -5,7 +5,7 @@ import { createParamDecorator } from '@nestjs/common';
 import { ExecutionContext } from '@nestjs/common';
 
 // pegando usuário logado na aplicação
-export const activeUser = createParamDecorator(
+export const ActiveUser = createParamDecorator(
   (data: unknown, ctx: ExecutionContext) => {
     // pegando request das operações http
     const request = ctx.switchToHttp().getRequest();

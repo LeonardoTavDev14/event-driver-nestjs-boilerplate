@@ -10,7 +10,7 @@ export class DatabaseUserMapper {
       raw.email,
       raw.password,
       raw.dateOfBirth,
-      raw.permissions,
+      raw.role,
       raw.loginAttempts,
       raw.accountSuspended,
       raw.accountBlocked,

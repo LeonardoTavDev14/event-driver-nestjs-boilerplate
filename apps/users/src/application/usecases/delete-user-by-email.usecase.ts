@@ -29,13 +29,14 @@ export class DeleteUserByEmailUseCase {
       throw new UserNotFoundError();
     }
 
+    // tipos de permissões permitidas
+    const rolesPermissions = ['ADMIN', 'SUPERADMIN', 'OWNER'];
+
     // caso o usuário não seja admin, superadmin ou owner, retorna um erro
-    if (
-      userRequests.role === 'USER' ||
-      userRequests.role === 'DEV' ||
-      userRequests.role === 'BACK_LOG'
-    ) {
-      throw new UnauthorizedException('Your not permissions sufficient!');
+    if (!rolesPermissions.includes(userRequests.role)) {
+      throw new UnauthorizedException(
+        'You do not have permissions sufficient!',
+      );
     }
 
     // procurando usuário a ser apagado por e-mail no banco de dados

@@ -8,6 +8,9 @@ import { Database } from '../../database/database';
 import { CreateUserUseCase } from 'apps/users/src/application/usecases/create-user.usecase';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { DeleteUserUseCase } from 'apps/users/src/application/usecases/delete-user.usecase';
+import { AuthUserUseCase } from 'apps/users/src/application/usecases/auth-user-usecase';
+import { RefreshTokenRepositories } from 'apps/users/src/domain/repositories/refresh-token.repositories';
+import { RefreshTokenRepository } from '../../repository/refresh-token.repository';
 
 @Module({
   imports: [
@@ -34,8 +37,10 @@ import { DeleteUserUseCase } from 'apps/users/src/application/usecases/delete-us
   providers: [
     Database,
     { provide: UserRepositories, useClass: UserRepository },
+    { provide: RefreshTokenRepositories, useClass: RefreshTokenRepository },
     CreateUserUseCase,
     DeleteUserUseCase,
+    AuthUserUseCase,
   ],
 })
 export class UsersModule {}

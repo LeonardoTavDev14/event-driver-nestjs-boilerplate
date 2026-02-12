@@ -13,6 +13,9 @@ import { User } from '../../domain/entities/user.entity';
 // importando mappers para a não repetição de codigo
 import { DatabaseUserMapper } from '../mappers/database.user.mapper';
 
+// importando dayjs para verificar se usuário está bloqueado
+import dayjs from 'dayjs';
+
 @Injectable()
 export class UserRepository implements UserRepositories {
   constructor(private readonly database: Database) {}
@@ -62,6 +65,33 @@ export class UserRepository implements UserRepositories {
     // deletando o usuário pelo id no banco de dados
     await this.database.user.delete({
       where: { id },
+    });
+  }
+
+  async lockAccount(user: User): Promise<boolean> {
+    // verificando se existe dados no accountSuspended
+    if (!user.accountSuspended) return false;
+
+    // verificando se data existente ainda está ativa
+    const isLockAccount = dayjs().isBefore(user.accountSuspended);
+
+    // retornando resultado
+    return isLockAccount;
+  }
+
+  async patchUser(user: User): Promise<void> {
+    // atualizando dados do usuário no banco de dados
+    await this.database.user.update({
+      where: { id: user.id },
+      data: {
+        name: user.name,
+        password: user.password,
+        dateOfBirth: user.dateOfBirth,
+        role: user.role,
+        loginAttempts: user.loginAttempts,
+        accountSuspended: user.accountSuspended,
+        accountBlocked: user.accountBlocked,
+      },
     });
   }
 }

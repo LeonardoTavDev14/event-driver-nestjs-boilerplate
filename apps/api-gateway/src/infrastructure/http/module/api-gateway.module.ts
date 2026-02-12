@@ -2,7 +2,7 @@ import { SharedModule } from '@app/shared';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ClientsModule, Transport } from '@nestjs/microservices';
-import { ApiGatewayController } from '../controllers/api-gateway.controller';
+import { ApiGatewayController } from '../controllers/api-gateway.user.controller';
 
 @Module({
   imports: [

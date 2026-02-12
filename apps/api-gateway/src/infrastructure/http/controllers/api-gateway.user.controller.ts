@@ -2,7 +2,7 @@
 import { Body, Controller, Delete, Inject, Param } from '@nestjs/common';
 
 // importando dto para validação de dados passados
-import { CreateUserDTO } from '@app/shared';
+import { AuthUserDTO, CreateUserDTO } from '@app/shared';
 
 // importando post do nest
 import { Post } from '@nestjs/common';
@@ -21,6 +21,10 @@ export class ApiGatewayController {
     return this.clientProxy.send('created_user', data);
   }
 
+  @Post('login')
+  authUser(@Body() data: AuthUserDTO) {
+    return this.clientProxy.send('auth_user', data);
+  }
   @Delete(':id')
   deletedUser(@Param('id') data: { id: string }) {
     return this.clientProxy.send('deleted_user', data);

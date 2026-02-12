@@ -51,4 +51,25 @@ export class User {
     if (accountBlocked !== undefined) this.accountBlocked = accountBlocked;
     if (id) this.id = id;
   }
+
+  // metodo estatico para atualização do usuário
+  static updateUser(existingUser: User, update: Partial<User>): User {
+    return new User(
+      update.name ?? existingUser.name,
+      existingUser.email,
+      update.password ?? existingUser.password,
+      update.dateOfBirth ?? existingUser.dateOfBirth,
+      update.role ?? existingUser.role,
+      update.loginAttempts !== undefined
+        ? update.loginAttempts
+        : existingUser.loginAttempts,
+      update.accountSuspended !== undefined
+        ? update.accountSuspended
+        : existingUser.accountSuspended,
+      update.accountBlocked !== undefined
+        ? update.accountBlocked
+        : existingUser.accountBlocked,
+      existingUser.id,
+    );
+  }
 }
