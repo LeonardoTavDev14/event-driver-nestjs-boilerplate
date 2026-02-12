@@ -50,9 +50,15 @@ export class UserController {
     const { tokens, user } = await this.authUserUseCase.execute(data);
 
     return {
-      accessToken: tokens.accessToken,
-      refreshToken: tokens.refreshToken_id,
-      user: { id: user.id, email: user.email, name: user.name },
+      token: {
+        accessToken: tokens.accessToken,
+        refreshToken_id: tokens.refreshToken_id,
+      },
+      userData: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+      },
     };
   }
 }

@@ -25,6 +25,7 @@ export class ApiGatewayController {
   authUser(@Body() data: AuthUserDTO) {
     return this.clientProxy.send('auth_user', data);
   }
+
   @Delete(':id')
   deletedUser(@Param('id') data: { id: string }) {
     return this.clientProxy.send('deleted_user', data);
