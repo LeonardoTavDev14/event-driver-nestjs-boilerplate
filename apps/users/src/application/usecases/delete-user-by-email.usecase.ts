@@ -50,7 +50,7 @@ export class DeleteUserByEmailUseCase {
     }
 
     // chamando evento para o envio de e-mail por meio de filas
-    this.clientProxy.emit('send_deleted_user_by_admin', {
+    this.clientProxy.emit('send_deleted_email', {
       email: userAlreadyExists.email,
       name: userAlreadyExists.name.split(' ')[0],
     });

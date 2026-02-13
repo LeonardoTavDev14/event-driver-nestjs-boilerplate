@@ -11,12 +11,14 @@ import { Payload } from '@nestjs/microservices';
 import { CreateUserUseCase } from 'apps/users/src/application/usecases/create-user.usecase';
 import { DeleteUserUseCase } from 'apps/users/src/application/usecases/delete-user.usecase';
 import { AuthUserUseCase } from 'apps/users/src/application/usecases/auth-user-usecase';
+import { DeleteUserByEmailUseCase } from 'apps/users/src/application/usecases/delete-user-by-email.usecase';
 
 @Controller()
 export class UserController {
   constructor(
     private readonly createUserUseCase: CreateUserUseCase,
     private readonly deleteUserUseCase: DeleteUserUseCase,
+    private readonly deleteUserByEmailUseCase: DeleteUserByEmailUseCase,
     private readonly authUserUseCase: AuthUserUseCase,
   ) {}
 
@@ -30,6 +32,11 @@ export class UserController {
   @MessagePattern('deleted_user')
   async deletedUser(@Payload() data: any) {
     return await this.deleteUserUseCase.execute(data);
+  }
+
+  @MessagePattern('deleted_user_admin')
+  async deletedUserByAdmin(@Payload() data: { id: string; email: string }) {
+    return await this.deleteUserByEmailUseCase.execute(data);
   }
 
   @MessagePattern('auth_user')

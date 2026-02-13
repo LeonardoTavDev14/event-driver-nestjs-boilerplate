@@ -34,6 +34,9 @@ import { ConfigService } from '@nestjs/config';
     { provide: DayJsProvider, useClass: NestDayJsProvider },
   ],
   exports: [
+    JwtStrategy,
+    PassportModule,
+    JwtModule,
     BcryptProvider,
     NodemailerProvider,
     TemplatesMailProvider,

@@ -10,8 +10,16 @@ import { Injectable } from '@nestjs/common';
 // importando configService para carregar variaveis de ambiente
 import { ConfigService } from '@nestjs/config';
 
-// importando tipos de permissões para o usuários
-import { permissions } from 'apps/users/src/domain/entities/user.entity';
+export const permissions = {
+  USER: 'USER',
+  DEV: 'DEV',
+  BACK_LOG: 'BACK_LOG',
+  ADMIN: 'ADMIN',
+  SUPERADMIN: 'SUPERADMIN',
+  OWNER: 'OWNER',
+} as const;
+
+type permissions = (typeof permissions)[keyof typeof permissions];
 
 // criando interface para o payload do jwt validate
 interface IJwtPayload {
