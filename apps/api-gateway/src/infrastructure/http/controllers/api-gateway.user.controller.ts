@@ -3,6 +3,7 @@ import {
   Body,
   Controller,
   Delete,
+  Get,
   HttpCode,
   HttpStatus,
   Inject,
@@ -98,6 +99,26 @@ export class ApiGatewayController {
 
     return {
       message: 'User deleted by admin successfully!',
+    };
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Get('find')
+  @HttpCode(HttpStatus.OK)
+  async findUserByEmail(
+    @ActiveUser() user: any,
+    @Body() data: { email: string },
+  ) {
+    const userFind = await firstValueFrom(
+      this.clientProxy.send('find_user', {
+        id: user.id,
+        email: data.email,
+      }),
+    );
+
+    return {
+      message: 'Data search!',
+      data: userFind,
     };
   }
 }

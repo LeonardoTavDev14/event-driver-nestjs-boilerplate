@@ -12,6 +12,7 @@ import { AuthUserUseCase } from 'apps/users/src/application/usecases/auth-user-u
 import { RefreshTokenRepositories } from 'apps/users/src/domain/repositories/refresh-token.repositories';
 import { RefreshTokenRepository } from '../../repository/refresh-token.repository';
 import { DeleteUserByEmailUseCase } from 'apps/users/src/application/usecases/delete-user-by-email.usecase';
+import { FindUserByEmailUseCase } from 'apps/users/src/application/usecases/find-user-by-email.usecase';
 
 @Module({
   imports: [
@@ -43,6 +44,7 @@ import { DeleteUserByEmailUseCase } from 'apps/users/src/application/usecases/de
     DeleteUserUseCase,
     AuthUserUseCase,
     DeleteUserByEmailUseCase,
+    FindUserByEmailUseCase,
   ],
 })
 export class UsersModule {}

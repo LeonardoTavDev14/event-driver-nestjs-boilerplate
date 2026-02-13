@@ -53,7 +53,7 @@ export class CreateUserUseCase {
       data.email,
       hashedPassword,
       data.dateOfBirth,
-      'ADMIN',
+      'USER',
     );
 
     // criando usuário no banco de dados

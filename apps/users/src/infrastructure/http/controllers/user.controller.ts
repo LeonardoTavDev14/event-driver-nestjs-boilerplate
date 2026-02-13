@@ -12,6 +12,7 @@ import { CreateUserUseCase } from 'apps/users/src/application/usecases/create-us
 import { DeleteUserUseCase } from 'apps/users/src/application/usecases/delete-user.usecase';
 import { AuthUserUseCase } from 'apps/users/src/application/usecases/auth-user-usecase';
 import { DeleteUserByEmailUseCase } from 'apps/users/src/application/usecases/delete-user-by-email.usecase';
+import { FindUserByEmailUseCase } from 'apps/users/src/application/usecases/find-user-by-email.usecase';
 
 @Controller()
 export class UserController {
@@ -20,6 +21,7 @@ export class UserController {
     private readonly deleteUserUseCase: DeleteUserUseCase,
     private readonly deleteUserByEmailUseCase: DeleteUserByEmailUseCase,
     private readonly authUserUseCase: AuthUserUseCase,
+    private readonly findUserByEmailUseCase: FindUserByEmailUseCase,
   ) {}
 
   @MessagePattern('created_user')
@@ -42,5 +44,10 @@ export class UserController {
   @MessagePattern('auth_user')
   async authUser(@Payload() data: any) {
     return await this.authUserUseCase.execute(data);
+  }
+
+  @MessagePattern('find_user')
+  async findUserByEmail(@Payload() data: any) {
+    return await this.findUserByEmailUseCase.execute(data);
   }
 }
