@@ -20,7 +20,7 @@ import { RefreshTokenRepository } from '../../repository/refresh-token.repositor
         useFactory: (configService: ConfigService) => ({
           transport: Transport.RMQ,
           options: {
-            urls: [configService.get<string>('RABBITMQ_URL') || ''],
+            urls: [configService.getOrThrow<string>('RABBITMQ_URL')],
             queue: 'notifications_queue',
             queueOptions: {
               durable: false,

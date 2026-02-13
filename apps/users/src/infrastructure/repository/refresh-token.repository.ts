@@ -15,7 +15,6 @@ export class RefreshTokenRepository implements RefreshTokenRepositories {
   constructor(private readonly database: Database) {}
 
   async saveRefreshToken(refreshToken: RefreshToken): Promise<RefreshToken> {
-    console.log('Dados recebidos no Repo:', refreshToken);
     // criando refreshToken no banco de dados
     const newRefreshToken = await this.database.refreshToken.create({
       data: {

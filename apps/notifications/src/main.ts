@@ -8,7 +8,7 @@ async function bootstrap() {
     {
       transport: Transport.RMQ,
       options: {
-        urls: [process.env.RABBITMQ_URL || ''],
+        urls: [process.env.RABBITMQ_URL!],
         queue: 'notifications_queue',
         queueOptions: {
           durable: false,

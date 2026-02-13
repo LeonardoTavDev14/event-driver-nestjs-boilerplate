@@ -20,7 +20,7 @@ interface IAuthUserRequest {
 }
 
 // interface de resposta
-interface IAuthUserResponse {
+export interface IAuthUserResponse {
   tokens: {
     accessToken: string;
     refreshToken_id: string;
