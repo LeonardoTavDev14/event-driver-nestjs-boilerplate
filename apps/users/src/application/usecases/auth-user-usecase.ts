@@ -42,9 +42,8 @@ import { Inject } from '@nestjs/common';
 import { User } from '../../domain/entities/user.entity';
 
 // importando error personalizado
-import { CredentialsUserError } from '@app/shared/errors/user/credentials-user.error';
-import { AccountBlockedUserError } from '@app/shared/errors/user/account-blocked-user.error';
-import { AccountSuspendedUserError } from '@app/shared/errors/user/account-suspended-user.error';
+import { RpcException } from '@nestjs/microservices';
+import { HttpStatus } from '@nestjs/common';
 
 // importando entidade RefreshToken
 import { RefreshToken } from '../../domain/entities/refresh-token.entity';
@@ -68,12 +67,21 @@ export class AuthUserUseCase {
 
     // caso não encontre nenhum usuário vinculado ao e-mail, retorna um erro
     if (!userAlreadyExists) {
-      throw new CredentialsUserError();
+      throw new RpcException({
+        message: 'E-mail or password incorrect!',
+        status: HttpStatus.BAD_REQUEST,
+        code: 'Credentials incorrect!',
+      });
     }
 
     // verificando se o usuário está bloqueado permanentemente
     if (userAlreadyExists.accountBlocked === true) {
-      throw new AccountBlockedUserError();
+      throw new RpcException({
+        message:
+          'Your account has been permanently blocked. Please contact support!',
+        status: HttpStatus.UNAUTHORIZED,
+        code: 'User Blocked Error',
+      });
     }
 
     // verificando se a conta está bloqueada temporariamente
@@ -82,7 +90,11 @@ export class AuthUserUseCase {
 
     // caso esteja bloqueada, retorna um erro
     if (userSuspended) {
-      throw new AccountSuspendedUserError();
+      throw new RpcException({
+        message: 'Your account is temporarily blocked. Please wait!',
+        status: HttpStatus.UNAUTHORIZED,
+        code: 'User Suspended Account Error',
+      });
     }
 
     // validando senha do usuário
@@ -112,7 +124,12 @@ export class AuthUserUseCase {
           // mandando atualização para o banco de dados
           await this.userRepository.patchUser(updatesUser);
 
-          throw new AccountBlockedUserError();
+          throw new RpcException({
+            message:
+              'Your account has been permanently blocked. Please contact support!',
+            status: HttpStatus.UNAUTHORIZED,
+            code: 'User Blocked Error',
+          });
         }
         // criando quantidade de tempo com dayjs
         const suspended = this.dayJsProvider.add(5, 'minute');
@@ -126,7 +143,11 @@ export class AuthUserUseCase {
         // mandando atualização para o banco de dados
         await this.userRepository.patchUser(updatesUser);
 
-        throw new AccountSuspendedUserError();
+        throw new RpcException({
+          message: 'Your account is temporarily blocked. Please wait!',
+          status: HttpStatus.UNAUTHORIZED,
+          code: 'User Suspended Account Error',
+        });
       }
 
       // utilizando metodo estatico para atualização do usuário
@@ -137,7 +158,11 @@ export class AuthUserUseCase {
       // mandando atualização para o banco de dados
       await this.userRepository.patchUser(updatesUser);
 
-      throw new CredentialsUserError();
+      throw new RpcException({
+        message: 'E-mail or password incorrect!',
+        status: HttpStatus.BAD_REQUEST,
+        code: 'Credentials incorrect!',
+      });
     }
 
     // utilizando metodo estatico para atualização do usuário

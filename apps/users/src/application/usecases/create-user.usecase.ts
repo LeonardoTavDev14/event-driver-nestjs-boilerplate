@@ -11,7 +11,8 @@ import { Inject, Injectable } from '@nestjs/common';
 import { User } from '../../domain/entities/user.entity';
 
 // importando error personalizado
-import { userAlreadyExistsError } from '@app/shared/errors/user/user-already-exists.error';
+import { RpcException } from '@nestjs/microservices';
+import { HttpStatus } from '@nestjs/common';
 
 // importando clientProxy para injeção de dependência
 import { ClientProxy } from '@nestjs/microservices';
@@ -41,7 +42,11 @@ export class CreateUserUseCase {
 
     // caso encontre um email vinculado no banco de dados, retorna um erro
     if (userAlreadyExists) {
-      throw new userAlreadyExistsError(userAlreadyExists.email);
+      throw new RpcException({
+        message: 'User already exists!',
+        status: HttpStatus.BAD_REQUEST,
+        code: 'User already exists in database error',
+      });
     }
 
     // criptografando senha do usuário novo

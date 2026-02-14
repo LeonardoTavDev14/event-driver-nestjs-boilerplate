@@ -11,7 +11,8 @@ import { Inject } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 
 // importando error personalizado
-import { UserNotFoundError } from '@app/shared/errors/user/user-not-found.error';
+import { RpcException } from '@nestjs/microservices';
+import { HttpStatus } from '@nestjs/common';
 
 @Injectable()
 export class DeleteUserUseCase {
@@ -26,7 +27,11 @@ export class DeleteUserUseCase {
 
     // caso não encontre nenhum usuário vinculado ao id, retorna um erro
     if (!userAlreadyExists) {
-      throw new UserNotFoundError();
+      throw new RpcException({
+        message: 'User not found!',
+        status: HttpStatus.NOT_FOUND,
+        code: 'User not found error',
+      });
     }
 
     // enviando e-mail de aviso para exclusão de conta para o usuário

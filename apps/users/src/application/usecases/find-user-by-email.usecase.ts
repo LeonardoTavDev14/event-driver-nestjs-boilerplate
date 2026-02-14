@@ -2,14 +2,17 @@
 import { UserRepositories } from '../../domain/repositories/user.repositories';
 
 // importando inject para a utilização de filas na aplicação
-import { Inject, UnauthorizedException } from '@nestjs/common';
+import { Inject } from '@nestjs/common';
 
 // importando injectable para ser um provider
 import { Injectable } from '@nestjs/common';
 
 // importando entidade usuário
 import { User } from '../../domain/entities/user.entity';
-import { UserNotFoundError } from '@app/shared/errors/user/user-not-found.error';
+
+// importando error personalizado
+import { RpcException } from '@nestjs/microservices';
+import { HttpStatus } from '@nestjs/common';
 
 @Injectable()
 export class FindUserByEmailUseCase {
@@ -23,7 +26,11 @@ export class FindUserByEmailUseCase {
 
     // caso o usuário não exista, retorna um erro
     if (!userRequested) {
-      throw new UserNotFoundError();
+      throw new RpcException({
+        message: 'User not found!',
+        status: HttpStatus.NOT_FOUND,
+        code: 'User not found error',
+      });
     }
 
     // permissões que o usuário deve conter para acessar esta usecase
@@ -31,7 +38,11 @@ export class FindUserByEmailUseCase {
 
     // caso o usuário não tenha permissão suficiente para acessar a usecase, retorna um erro
     if (!allowedRoles.includes(userRequested.role)) {
-      throw new UnauthorizedException('Your not permission have deleted user!');
+      throw new RpcException({
+        message: 'You do not have permission to access this information!',
+        status: HttpStatus.UNAUTHORIZED,
+        code: 'User request not have permission error',
+      });
     }
 
     // procurando usuário por meio do e-mail
@@ -41,7 +52,11 @@ export class FindUserByEmailUseCase {
 
     // caso o usuário não exista no banco de dados, retorna um erro
     if (!userAlreadyExists) {
-      throw new UserNotFoundError();
+      throw new RpcException({
+        message: 'User not found!',
+        status: HttpStatus.NOT_FOUND,
+        code: 'User not found error',
+      });
     }
 
     // retornando usuário encontrado

@@ -8,7 +8,8 @@ import { Inject, UnauthorizedException } from '@nestjs/common';
 import { Injectable } from '@nestjs/common';
 
 // importando error personalizado
-import { UserNotFoundError } from '@app/shared/errors/user/user-not-found.error';
+import { RpcException } from '@nestjs/microservices';
+import { HttpStatus } from '@nestjs/common';
 
 // Importando clientProxy para a utilização de filas na aplicação
 import { ClientProxy } from '@nestjs/microservices';
@@ -26,7 +27,12 @@ export class DeleteUserByEmailUseCase {
 
     // caso não encontre nenhum usuário vinculado ao id, retorna um erro
     if (!userRequests) {
-      throw new UserNotFoundError();
+      throw new RpcException({
+        message:
+          'Your account has been permanently blocked. Please contact support!',
+        status: HttpStatus.UNAUTHORIZED,
+        code: 'User Blocked Error',
+      });
     }
 
     // tipos de permissões permitidas
@@ -46,7 +52,11 @@ export class DeleteUserByEmailUseCase {
 
     // caso não encontre nenhum usuário vinculado ao e-mail, retorna um erro
     if (!userAlreadyExists) {
-      throw new UserNotFoundError();
+      throw new RpcException({
+        message: 'User not found!',
+        status: HttpStatus.NOT_FOUND,
+        code: 'User not found error',
+      });
     }
 
     // chamando evento para o envio de e-mail por meio de filas

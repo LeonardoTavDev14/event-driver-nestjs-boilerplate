@@ -12,7 +12,7 @@ import {
 } from '@nestjs/common';
 
 // importando dto para validação de dados passados
-import { AuthUserDTO, CreateUserDTO } from '@app/shared';
+import { AuthUserDTO, CreateUserDTO, FindUserDTO } from '@app/shared';
 
 // importando post do nest
 import { Post } from '@nestjs/common';
@@ -86,10 +86,7 @@ export class ApiGatewayController {
   @UseGuards(AuthGuard('jwt'))
   @Delete('admin')
   @HttpCode(HttpStatus.OK)
-  async deletedUserByAdmin(
-    @ActiveUser() user: any,
-    @Body() data: { email: string },
-  ) {
+  async deletedUserByAdmin(@ActiveUser() user: any, @Body() data: FindUserDTO) {
     await firstValueFrom(
       this.clientProxy.send('deleted_user_admin', {
         id: user.id,
@@ -105,10 +102,7 @@ export class ApiGatewayController {
   @UseGuards(AuthGuard('jwt'))
   @Get('find')
   @HttpCode(HttpStatus.OK)
-  async findUserByEmail(
-    @ActiveUser() user: any,
-    @Body() data: { email: string },
-  ) {
+  async findUserByEmail(@ActiveUser() user: any, @Body() data: FindUserDTO) {
     const userFind = await firstValueFrom(
       this.clientProxy.send('find_user', {
         id: user.id,
