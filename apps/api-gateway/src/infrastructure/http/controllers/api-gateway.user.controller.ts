@@ -8,11 +8,17 @@ import {
   HttpStatus,
   Inject,
   Param,
+  Patch,
   Res,
 } from '@nestjs/common';
 
 // importando dto para validação de dados passados
-import { AuthUserDTO, CreateUserDTO, FindUserDTO } from '@app/shared';
+import {
+  AuthUserDTO,
+  CreateUserDTO,
+  FindUserDTO,
+  UpdateUserDTO,
+} from '@app/shared';
 
 // importando post do nest
 import { Post } from '@nestjs/common';
@@ -113,6 +119,39 @@ export class ApiGatewayController {
     return {
       message: 'Data search!',
       data: userFind,
+    };
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Get('find-users')
+  @HttpCode(HttpStatus.OK)
+  async findUsers(@ActiveUser() user: any) {
+    const users = await firstValueFrom(
+      this.clientProxy.send('find_users', {
+        id: user.id,
+      }),
+    );
+
+    return {
+      datas: users,
+    };
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Patch('patch')
+  @HttpCode(HttpStatus.OK)
+  async patchUser(@ActiveUser() user: any, @Body() data: UpdateUserDTO) {
+    const userUpdated = await firstValueFrom(
+      this.clientProxy.send('update_user', {
+        id: user.id,
+        name: data.name,
+        dateOfBirth: data.dateOfBirth,
+      }),
+    );
+
+    return {
+      message: 'User updated successfully!',
+      userUpdate: userUpdated.user,
     };
   }
 }

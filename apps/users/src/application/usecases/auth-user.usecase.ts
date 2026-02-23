@@ -75,7 +75,7 @@ export class AuthUserUseCase {
     }
 
     // verificando se o usuário está bloqueado permanentemente
-    if (userAlreadyExists.accountBlocked === true) {
+    if (userAlreadyExists.accountBlocked) {
       throw new RpcException({
         message:
           'Your account has been permanently blocked. Please contact support!',
@@ -121,8 +121,17 @@ export class AuthUserUseCase {
             accountBlocked: true,
           });
 
-          // mandando atualização para o banco de dados
-          await this.userRepository.patchUser(updatesUser);
+          // criando um try-catch para caso a conexão com o banco de dados caia
+          try {
+            // mandando atualização para o banco de dados
+            await this.userRepository.patchUser(updatesUser);
+          } catch (error) {
+            throw new RpcException({
+              message: 'Failed to update user in database!',
+              status: HttpStatus.INTERNAL_SERVER_ERROR,
+              code: 'Connection to database failed!',
+            });
+          }
 
           throw new RpcException({
             message:
@@ -140,8 +149,17 @@ export class AuthUserUseCase {
           accountSuspended: suspended,
         });
 
-        // mandando atualização para o banco de dados
-        await this.userRepository.patchUser(updatesUser);
+        // criando um try-catch para caso a conexão com o banco de dados caia
+        try {
+          // mandando atualização para o banco de dados
+          await this.userRepository.patchUser(updatesUser);
+        } catch (error) {
+          throw new RpcException({
+            message: 'Failed to update user in database!',
+            status: HttpStatus.INTERNAL_SERVER_ERROR,
+            code: 'Connection to database failed!',
+          });
+        }
 
         throw new RpcException({
           message: 'Your account is temporarily blocked. Please wait!',
@@ -155,8 +173,17 @@ export class AuthUserUseCase {
         loginAttempts: countAttempts,
       });
 
-      // mandando atualização para o banco de dados
-      await this.userRepository.patchUser(updatesUser);
+      // criando um try-catch para caso a conexão com o banco de dados caia
+      try {
+        // mandando atualização para o banco de dados
+        await this.userRepository.patchUser(updatesUser);
+      } catch (error) {
+        throw new RpcException({
+          message: 'Failed to update user in database!',
+          status: HttpStatus.INTERNAL_SERVER_ERROR,
+          code: 'Connection to database failed!',
+        });
+      }
 
       throw new RpcException({
         message: 'E-mail or password incorrect!',
@@ -170,13 +197,29 @@ export class AuthUserUseCase {
       loginAttempts: 0,
     });
 
-    // mandando atualização para o banco de dados
-    await this.userRepository.patchUser(updatesUser);
+    // criando um try-catch para caso a conexão com o banco de dados caia
+    try {
+      // mandando atualização para o banco de dados
+      await this.userRepository.patchUser(updatesUser);
+    } catch (error) {
+      throw new RpcException({
+        message: 'Failed to update user in database!',
+        status: HttpStatus.INTERNAL_SERVER_ERROR,
+        code: 'Connection to database failed!',
+      });
+    }
 
-    // deletando todos os refreshTokens vinculados ao usuário
-    await this.refreshTokenRepository.removeManyRefreshTokens(
-      userAlreadyExists.id as string,
-    );
+    try {
+      await this.refreshTokenRepository.removeManyRefreshTokens(
+        userAlreadyExists.id as string,
+      );
+    } catch (error) {
+      throw new RpcException({
+        message: 'Failed to update user in database!',
+        status: HttpStatus.INTERNAL_SERVER_ERROR,
+        code: 'Connection to database failed!',
+      });
+    }
 
     // criando novo refreshToken
     const newRefreshToken = new RefreshToken(

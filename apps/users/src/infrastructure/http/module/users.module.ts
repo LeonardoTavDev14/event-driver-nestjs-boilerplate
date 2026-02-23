@@ -8,11 +8,13 @@ import { Database } from '../../database/database';
 import { CreateUserUseCase } from 'apps/users/src/application/usecases/create-user.usecase';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { DeleteUserUseCase } from 'apps/users/src/application/usecases/delete-user.usecase';
-import { AuthUserUseCase } from 'apps/users/src/application/usecases/auth-user-usecase';
+import { AuthUserUseCase } from 'apps/users/src/application/usecases/auth-user.usecase';
 import { RefreshTokenRepositories } from 'apps/users/src/domain/repositories/refresh-token.repositories';
 import { RefreshTokenRepository } from '../../repository/refresh-token.repository';
 import { DeleteUserByEmailUseCase } from 'apps/users/src/application/usecases/delete-user-by-email.usecase';
 import { FindUserByEmailUseCase } from 'apps/users/src/application/usecases/find-user-by-email.usecase';
+import { FindUsersUseCase } from 'apps/users/src/application/usecases/find-users.usecase';
+import { UpdateUserUseCase } from 'apps/users/src/application/usecases/update-user.usecase';
 
 @Module({
   imports: [
@@ -45,6 +47,8 @@ import { FindUserByEmailUseCase } from 'apps/users/src/application/usecases/find
     AuthUserUseCase,
     DeleteUserByEmailUseCase,
     FindUserByEmailUseCase,
+    FindUsersUseCase,
+    UpdateUserUseCase,
   ],
 })
 export class UsersModule {}

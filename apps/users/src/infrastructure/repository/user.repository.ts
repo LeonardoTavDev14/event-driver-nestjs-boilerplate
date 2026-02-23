@@ -94,4 +94,25 @@ export class UserRepository implements UserRepositories {
       },
     });
   }
+
+  async findAll(): Promise<User[]> {
+    // procurando lista de usuários no banco de dados
+    const users = await this.database.user.findMany();
+
+    // retornando lista de usuários encontrados
+    return users.map(
+      (user) =>
+        new User(
+          user.name,
+          user.email,
+          user.password,
+          user.dateOfBirth,
+          user.role,
+          user.loginAttempts,
+          user.accountSuspended,
+          user.accountBlocked,
+          user.id,
+        ),
+    );
+  }
 }

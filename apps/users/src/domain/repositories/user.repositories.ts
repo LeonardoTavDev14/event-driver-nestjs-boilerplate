@@ -9,4 +9,5 @@ export abstract class UserRepositories {
   abstract removeUser(id: string): Promise<void>;
   abstract lockAccount(user: User): Promise<boolean>;
   abstract patchUser(user: User): Promise<void>;
+  abstract findAll(): Promise<User[]>;
 }

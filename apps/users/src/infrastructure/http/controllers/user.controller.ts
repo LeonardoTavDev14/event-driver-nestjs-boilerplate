@@ -10,9 +10,11 @@ import { Payload } from '@nestjs/microservices';
 // importando usecases
 import { CreateUserUseCase } from 'apps/users/src/application/usecases/create-user.usecase';
 import { DeleteUserUseCase } from 'apps/users/src/application/usecases/delete-user.usecase';
-import { AuthUserUseCase } from 'apps/users/src/application/usecases/auth-user-usecase';
+import { AuthUserUseCase } from 'apps/users/src/application/usecases/auth-user.usecase';
 import { DeleteUserByEmailUseCase } from 'apps/users/src/application/usecases/delete-user-by-email.usecase';
 import { FindUserByEmailUseCase } from 'apps/users/src/application/usecases/find-user-by-email.usecase';
+import { FindUsersUseCase } from 'apps/users/src/application/usecases/find-users.usecase';
+import { UpdateUserUseCase } from 'apps/users/src/application/usecases/update-user.usecase';
 
 @Controller()
 export class UserController {
@@ -22,6 +24,8 @@ export class UserController {
     private readonly deleteUserByEmailUseCase: DeleteUserByEmailUseCase,
     private readonly authUserUseCase: AuthUserUseCase,
     private readonly findUserByEmailUseCase: FindUserByEmailUseCase,
+    private readonly findUsersUseCase: FindUsersUseCase,
+    private readonly updateUserUseCase: UpdateUserUseCase,
   ) {}
 
   @MessagePattern('created_user')
@@ -49,5 +53,15 @@ export class UserController {
   @MessagePattern('find_user')
   async findUserByEmail(@Payload() data: any) {
     return await this.findUserByEmailUseCase.execute(data);
+  }
+
+  @MessagePattern('find_users')
+  async findUsers(@Payload() data: any) {
+    return await this.findUsersUseCase.execute(data);
+  }
+
+  @MessagePattern('update_user')
+  async updateUser(@Payload() data: any) {
+    return await this.updateUserUseCase.execute(data);
   }
 }

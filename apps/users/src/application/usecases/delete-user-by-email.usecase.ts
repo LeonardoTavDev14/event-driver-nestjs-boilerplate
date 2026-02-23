@@ -2,7 +2,7 @@
 import { UserRepositories } from '../../domain/repositories/user.repositories';
 
 // importando Inject para a utilização de micro-serviços
-import { Inject, UnauthorizedException } from '@nestjs/common';
+import { Inject } from '@nestjs/common';
 
 // importando injectable para mostrar que a classe é um provider
 import { Injectable } from '@nestjs/common';
@@ -40,9 +40,11 @@ export class DeleteUserByEmailUseCase {
 
     // caso o usuário não seja admin, superadmin ou owner, retorna um erro
     if (!rolesPermissions.includes(userRequests.role)) {
-      throw new UnauthorizedException(
-        'You do not have permissions sufficient!',
-      );
+      throw new RpcException({
+        message: 'You do not have permissions sufficient!',
+        status: HttpStatus.UNAUTHORIZED,
+        code: 'Not have permissions sufficient',
+      });
     }
 
     // procurando usuário a ser apagado por e-mail no banco de dados
