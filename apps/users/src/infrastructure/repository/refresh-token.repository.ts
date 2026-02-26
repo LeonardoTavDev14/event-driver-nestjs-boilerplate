@@ -8,7 +8,7 @@ import { RefreshToken } from '../../domain/entities/refresh-token.entity';
 import { Injectable } from '@nestjs/common';
 
 // importando database para ser uma injeção de dependência
-import { Database } from '../database/database';
+import { Database } from '@app/shared';
 
 @Injectable()
 export class RefreshTokenRepository implements RefreshTokenRepositories {

@@ -2,7 +2,7 @@ import { SharedModule } from '@app/shared';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ClientsModule, Transport } from '@nestjs/microservices';
-import { ApiGatewayController } from '../controllers/api-gateway.user.controller';
+import { ApiGatewayUserController } from '../controllers/api-gateway.user.controller';
 
 @Module({
   imports: [
@@ -24,8 +24,24 @@ import { ApiGatewayController } from '../controllers/api-gateway.user.controller
         inject: [ConfigService],
       },
     ]),
+    ClientsModule.registerAsync([
+      {
+        name: 'TASK_SERVICE',
+        useFactory: (configService: ConfigService) => ({
+          transport: Transport.RMQ,
+          options: {
+            urls: [configService.getOrThrow<string>('RABBITMQ_URL')],
+            queue: 'tasks_queue',
+            queueOptions: {
+              durable: false,
+            },
+          },
+        }),
+        inject: [ConfigService],
+      },
+    ]),
   ],
-  controllers: [ApiGatewayController],
+  controllers: [ApiGatewayUserController],
   providers: [],
 })
 export class ApiGatewayModule {}

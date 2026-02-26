@@ -40,7 +40,7 @@ import { ActiveUser } from '@app/shared/infrastructure/decorators/active-user';
 import { AuthGuard } from '@nestjs/passport';
 
 @Controller('users')
-export class ApiGatewayController {
+export class ApiGatewayUserController {
   constructor(
     @Inject('USER_SERVICE') private readonly clientProxy: ClientProxy,
   ) {}

@@ -46,6 +46,24 @@
         "tsConfigPath": "libs/shared/tsconfig.lib.json"
       }
     },
+    "taksk": {
+      "type": "application",
+      "root": "apps/taksk",
+      "entryFile": "main",
+      "sourceRoot": "apps/taksk/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/taksk/tsconfig.app.json"
+      }
+    },
+    "tasks": {
+      "type": "application",
+      "root": "apps/tasks",
+      "entryFile": "main",
+      "sourceRoot": "apps/tasks/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/tasks/tsconfig.app.json"
+      }
+    },
     "users": {
       "type": "application",
       "root": "apps/users",

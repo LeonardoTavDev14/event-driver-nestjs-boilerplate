@@ -13,6 +13,7 @@ import { NestDayJsProvider } from '../../providers/nest.dayjs.provider';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
+import { Database } from '../../database/database';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { ConfigService } from '@nestjs/config';
     }),
   ],
   providers: [
+    Database,
     JwtStrategy,
     { provide: BcryptProvider, useClass: NestBcryptProvider },
     { provide: NodemailerProvider, useClass: NestNodemailerProvider },

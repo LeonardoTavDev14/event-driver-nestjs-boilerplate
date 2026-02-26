@@ -5,7 +5,7 @@ import { UserRepositories } from '../../domain/repositories/user.repositories';
 import { Injectable } from '@nestjs/common';
 
 // importando database a ser uma injeção de dependência no inicializador
-import { Database } from '../database/database';
+import { Database } from '@app/shared';
 
 // importando entidade user
 import { User } from '../../domain/entities/user.entity';

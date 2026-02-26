@@ -4,7 +4,6 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { UserController } from '../controllers/user.controller';
 import { UserRepositories } from 'apps/users/src/domain/repositories/user.repositories';
 import { UserRepository } from '../../repository/user.repository';
-import { Database } from '../../database/database';
 import { CreateUserUseCase } from 'apps/users/src/application/usecases/create-user.usecase';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { DeleteUserUseCase } from 'apps/users/src/application/usecases/delete-user.usecase';
@@ -39,7 +38,6 @@ import { UpdateUserUseCase } from 'apps/users/src/application/usecases/update-us
   ],
   controllers: [UserController],
   providers: [
-    Database,
     { provide: UserRepositories, useClass: UserRepository },
     { provide: RefreshTokenRepositories, useClass: RefreshTokenRepository },
     CreateUserUseCase,

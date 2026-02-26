@@ -17,6 +17,16 @@ enum permissions {
   OWNER
 }
 
+// tipos de status de prioridades de tarefas
+enum statusPriority {
+  TODO
+  DOING
+  DONE
+  TESTED
+  REVIEWED
+  COMPLETED
+}
+
 // tabela de usuário
 model user {
   id          String      @id @default(uuid())
@@ -31,6 +41,7 @@ model user {
   accountBlocked   Boolean?
 
   refreshToken RefreshToken[]
+  tasks        Tasks[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -46,4 +57,22 @@ model RefreshToken {
   userId   String
 
   @@map("refreshTokens")
+}
+
+// tabela de tasks
+model Tasks {
+  id          String         @id @default(uuid())
+  title       String
+  description String
+  priority    statusPriority @default(TODO)
+  dateStart   DateTime?
+  dateEnd     DateTime?
+  user        user           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String
+  comments    String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("tasks")
 }

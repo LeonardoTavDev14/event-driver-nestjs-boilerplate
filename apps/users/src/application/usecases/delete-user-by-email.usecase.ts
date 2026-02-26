@@ -28,10 +28,9 @@ export class DeleteUserByEmailUseCase {
     // caso não encontre nenhum usuário vinculado ao id, retorna um erro
     if (!userRequests) {
       throw new RpcException({
-        message:
-          'Your account has been permanently blocked. Please contact support!',
-        status: HttpStatus.UNAUTHORIZED,
-        code: 'User Blocked Error',
+        message: 'User not found!',
+        status: HttpStatus.NOT_FOUND,
+        code: 'User not found error',
       });
     }
 
